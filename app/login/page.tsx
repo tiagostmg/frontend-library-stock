@@ -20,7 +20,7 @@ export default function LoginPage() {
       router.push("/dashboard")
     }
     else {
-      toast.error("Erro")
+      toast.error("Credenciais inválidas")
     }
   }
 
