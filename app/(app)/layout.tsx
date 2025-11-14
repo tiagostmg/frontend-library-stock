@@ -6,7 +6,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* HEADER */}
       <header className="bg-zinc-900 text-white p-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Library Stock</h1>
+        <Link href="/dashboard" className="text-xl font-semibold hover:text-zinc-300">Library Stock</Link>
 
         {/* NAVBAR */}
         <nav className="flex gap-6 text-sm">

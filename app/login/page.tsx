@@ -2,25 +2,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const { login } = useAuth();
   const router = useRouter();
 
-  const [cpf, setCpf] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [cpf, setCpf] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (cpf=='123' && password=='123') {
-      toast.success("Login OK")
-      router.push("/dashboard")
-    }
-    else {
-      toast.error("Credenciais inválidas")
+  async function handleLogin() {
+    try {
+      await login(cpf, password);
+      toast.success("Login OK");
+      router.push("/dashboard");
+    } catch (err) {
+      toast.error("Credenciais inválidas");
     }
   }
 
@@ -32,14 +32,11 @@ export default function LoginPage() {
           Login
         </h1>
 
-        <Input placeholder="Insira seu CPF" onChange={(e) => setCpf(e.target.value)} />
+        <Input placeholder="CPF" onChange={(e) => setCpf(e.target.value)} />
 
-        <Input type="password" placeholder="Insira sua senha" onChange={(e) => setPassword(e.target.value)} />
+        <Input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} />
 
-        <Button 
-          className="w-full mt-4"
-          onClick={handleLogin}
-        >
+        <Button className="w-full mt-4" onClick={handleLogin}>
           Entrar
         </Button>
 
