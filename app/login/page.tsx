@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,9 +14,14 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("cpf:", cpf);
-    console.log("senha:", password);
-    //router.push("/dashboard")
+
+    if (cpf=='123' && password=='123') {
+      toast.success("Login OK")
+      router.push("/dashboard")
+    }
+    else {
+      toast.error("Erro")
+    }
   }
 
   return (
