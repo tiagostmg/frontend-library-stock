@@ -29,7 +29,7 @@ api.interceptors.response.use(
 
       // redireciona para login
       if (typeof window !== "undefined") {
-        window.location.href = "/auth/login";
+        window.location.href = "/auth/signin";
       }
     }
 
