@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, useEffect } from "react";
-import { login as loginService } from "@/services/authService";
+import { login as loginService } from "@/services/auth.service";
 
 type AuthContextType = {
   user: any;

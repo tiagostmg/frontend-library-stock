@@ -16,6 +16,7 @@ export default function LoginPage() {
 
   async function handleLogin() {
     try {
+      console.log(cpf, password)
       await login(cpf, password);
       toast.success("Login OK");
       router.push("/dashboard");

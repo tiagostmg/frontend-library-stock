@@ -1,5 +1,5 @@
 // src/services/authService.ts
-import { api } from "@/lib/api";
+import { api } from "@/utils/api";
 
 export async function login(cpf: string, password: string) {
   const response = await api.post("/auth/login", {
