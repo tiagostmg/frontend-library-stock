@@ -30,9 +30,9 @@ export default function ProfilePage() {
                 <UserCircle className="w-16 h-16" />
               </div>
             </div>
-            <button className="px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
+            {/* <button className="px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors">
               Editar Perfil
-            </button>
+            </button> */}
           </div>
 
           <div className="space-y-6">
@@ -67,7 +67,8 @@ export default function ProfilePage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between items-center">
                     <span className="text-zinc-500">Senha</span>
-                    <button className="text-blue-600 hover:underline text-xs">Alterar senha</button>
+                    <span className="font-mono text-zinc-700 dark:text-zinc-300">••••••••</span>
+                    {/* <button className="text-blue-600 hover:underline text-xs">Alterar senha</button> */}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-zinc-500">Autenticação</span>

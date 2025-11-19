@@ -25,21 +25,60 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm bg-white shadow-xl rounded-2xl p-8 flex flex-col gap-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl flex overflow-hidden">
+        {/* Left Column for Login Form */}
+        <div className="w-full md:w-1/2 p-8 flex flex-col gap-4 justify-center">
+          <h1 className="text-3xl font-bold text-center mb-2 mt-8 text-gray-800">
+            Bem-vindo de volta!
+          </h1>
+          <p className="text-center text-gray-600 mb-4">
+            Faça login para continuar.
+          </p>
+          <Input
+            placeholder="CPF"
+            onChange={(e) => setCpf(e.target.value)}
+            className="p-3 text-lg"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("password-input")?.focus();
+              }
+            }}
+          />
 
-        <h1 className="text-2xl font-semibold text-center mb-4">
-          Login
-        </h1>
+          <Input
+            id="password-input"
+            type="password"
+            placeholder="Senha"
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-3 text-lg"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleLogin();
+              }
+            }}
+          />
 
-        <Input placeholder="CPF" onChange={(e) => setCpf(e.target.value)} />
+          <Button className="w-full mt-6 py-3 text-lg font-semibold cursor-pointer" onClick={handleLogin}>
+            Entrar
+          </Button>
 
-        <Input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value)} />
+          {/* <p className="text-center text-sm text-gray-500 mt-4">
+            Não tem uma conta? <a href="#" className="text-blue-600 hover:underline">Registre-se</a>
+          </p> */}
+        </div>
 
-        <Button className="w-full mt-4" onClick={handleLogin}>
-          Entrar
-        </Button>
-
+        {/* Right Column for Visual (hidden on small screens) */}
+        <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-500 to-indigo-600 items-center justify-center p-8">
+          <div className="text-white text-center">
+            <h2 className="text-4xl font-extrabold mb-4">Seu Portal de Gestão</h2>
+            <p className="text-xl leading-relaxed">
+              Acesse suas informações e gerencie seus dados de forma eficiente.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
