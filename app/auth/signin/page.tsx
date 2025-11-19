@@ -18,7 +18,7 @@ export default function LoginPage() {
     try {
       await login(cpf, password);
       toast.success("Login OK");
-      router.push("/dashboard");
+      router.push("/home");
     } catch (err) {
       toast.error("Credenciais inválidas");
     }
