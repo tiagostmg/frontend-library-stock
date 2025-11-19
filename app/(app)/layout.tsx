@@ -46,7 +46,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48 bg-white text-zinc-900 rounded-md shadow-lg py-1 z-10">
               <div className="block w-full text-left px-4 py-2 text-sm text-zinc-700">
-                Nome Usuário
+                {auth?.user?.name || "Nome Usuário"}
               </div>
               <DropdownMenuItem asChild>
                 <Link href="/profile" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-zinc-100 cursor-pointer">
