@@ -16,7 +16,6 @@ export default function LoginPage() {
 
   async function handleLogin() {
     try {
-      console.log(cpf, password)
       await login(cpf, password);
       toast.success("Login OK");
       router.push("/dashboard");
@@ -28,7 +27,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-sm bg-white shadow-xl rounded-2xl p-8 flex flex-col gap-4">
-        
+
         <h1 className="text-2xl font-semibold text-center mb-4">
           Login
         </h1>

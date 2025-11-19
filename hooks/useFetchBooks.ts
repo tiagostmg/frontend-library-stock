@@ -19,6 +19,8 @@ export function useSearchBooks() {
 
   const [isInitialLoad, setIsInitialLoad] = useState(true)
 
+  const [totalPages, setTotalPages] = useState<number>(0)
+
   async function loadBooks() {
     setLoading(true)
     setError(null)
@@ -26,6 +28,7 @@ export function useSearchBooks() {
       const url = `/books/search?filter=${filter}&type=${type}&page=${page}&size=${pageSize}`
       const res = await api.get(url)
       setBooks(res.data.content)
+      setTotalPages(res.data.totalPages)
     } catch (err) {
       setError("Erro ao carregar livros.")
       setBooks([])
@@ -54,5 +57,5 @@ export function useSearchBooks() {
     setPage(0)
   }, [pageSize])
 
-  return { books, loading, error, filter, setFilter, setType, page, setPage, pageSize, setpageSize }
+  return { books, loading, error, filter, setFilter, setType, page, setPage, pageSize, setpageSize, totalPages }
 }

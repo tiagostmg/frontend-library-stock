@@ -7,8 +7,16 @@ import { SearchBar } from "@/components/SearchBar"
 // Importe o novo componente Spinner
 import LoadingSpinner from "@/components/LoadingSpinner"
 
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+
 export default function BookPage() {
-    const { books, loading, error, filter, setFilter, setType } = useSearchBooks()
+    const { books, loading, error, filter, setFilter, setType, page, setPage, totalPages } = useSearchBooks()
 
     return (
         <>
@@ -53,11 +61,47 @@ export default function BookPage() {
 
             {/* 4. Renderiza a lista de livros APENAS se não estiver carregando e não houver erro */}
             {!loading && !error && books.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                    {books.map(book => (
-                        <BookCard key={book.id} {...book} />
-                    ))}
-                </div>
+                <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                        {books.map(book => (
+                            <BookCard key={book.id} {...book} />
+                        ))}
+                    </div>
+
+                    <div className="py-8">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (page > 0) setPage(page - 1);
+                                        }}
+                                        className={page === 0 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+
+                                <PaginationItem>
+                                    <span className="px-4 text-sm text-muted-foreground">
+                                        Página {page + 1} de {totalPages}
+                                    </span>
+                                </PaginationItem>
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (page < totalPages - 1) setPage(page + 1);
+                                        }}
+                                        className={page >= totalPages - 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                </>
             )}
         </>
     )
