@@ -23,7 +23,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* HEADER */}
       <header className="bg-zinc-900 text-white p-4 flex items-center justify-between">
-        <Link href="/home" className="text-xl font-semibold hover:text-zinc-300">Library Stock</Link>
+        <Link href="/home" className="text-xl font-semibold hover:text-zinc-300">Biblioteca</Link>
 
         {/* NAVBAR */}
         <nav className="flex gap-6 text-sm">
@@ -35,7 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           <Link href="/books" className="hover:text-zinc-300 flex gap-2 items-center">
             <BookOpen className="w-5 h-5" />
-            Books
+            Livros
           </Link>
 
           <DropdownMenu>
@@ -44,14 +44,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <UserCircle className="w-6 h-6" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48 bg-white text-zinc-900 rounded-md shadow-lg py-1 z-10">
+            <DropdownMenuContent className="w-64 bg-white text-zinc-900 rounded-md shadow-lg py-1 z-10">
               <div className="block w-full text-left px-4 py-2 text-sm text-zinc-700">
                 {auth?.user?.name || "Nome Usuário"}
               </div>
               <DropdownMenuItem asChild>
                 <Link href="/profile" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-zinc-100 cursor-pointer">
                   <Settings className="w-4 h-4" />
-                  Profile Info
+                  Informações do Perfil
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 cursor-pointer">
