@@ -1,6 +1,17 @@
+"use client"
+
+import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
+import { useContext } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const auth = useContext(AuthContext);
+
+  function handleLogout() {
+    if (!auth) return;
+
+    auth.logout();
+  }
   return (
     <div className="min-h-screen flex flex-col">
 
@@ -18,7 +29,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             Books
           </Link>
 
-          <Link href="/login" className="hover:text-zinc-300">
+          <Link href="/auth/signin" className="hover:text-zinc-300"
+            onClick={() => handleLogout()}
+          >
             Logout
           </Link>
         </nav>
