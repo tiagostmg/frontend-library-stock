@@ -1,6 +1,6 @@
 "use client"
 
-import { useSearchBooks } from "@/hooks/useFetchBooks"
+import { useSearchBooks } from "@/hooks/useSearchBooks"
 import { BookCard } from "@/components/BookCard"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { SearchBar } from "@/components/SearchBar"

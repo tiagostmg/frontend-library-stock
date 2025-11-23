@@ -11,7 +11,7 @@ export function useSearchBooks() {
   const [filter, setFilter] = useState<string>("")
   const [type, setType] = useState<string>("title")
   const [page, setPage] = useState<number>(0)
-  const [pageSize, setpageSize] = useState<number>(16)
+  const [pageSize, setpageSize] = useState<number>(12)
 
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)

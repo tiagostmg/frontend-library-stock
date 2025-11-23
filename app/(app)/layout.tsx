@@ -40,7 +40,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 hover:text-zinc-300 focus:outline-none cursor-pointer">
+              <button suppressHydrationWarning className="flex items-center gap-2 hover:text-zinc-300 focus:outline-none cursor-pointer">
+                {/*
+                  TODO: ver problema do suppressHydrationWarning
+                */}
                 <UserCircle className="w-6 h-6" />
               </button>
             </DropdownMenuTrigger>
