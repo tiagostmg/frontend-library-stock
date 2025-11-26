@@ -5,6 +5,8 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { Button } from '@/components/ui/button';
 import { useFetchBookById } from '@/hooks/useFetchBookById';
 import { useFetchBookInstances } from '@/hooks/useFetchBookInstances';
+import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { use } from 'react';
 
 interface BookInstancesPageProps {
@@ -20,6 +22,8 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
   const { bookInstances, loading: bookInstancesLoading, error: bookInstancesError } = useFetchBookInstances(bookId)
 
   const { book, loading: bookLoading, error: bookError } = useFetchBookById(bookId)
+
+  const router = useRouter();
 
   if (bookInstancesLoading || bookLoading) {
     return (
@@ -81,7 +85,14 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
               <p>Código de Classificação: {instance.location.classificationCode}</p>
             </div>
 
-            <Button className='mt-4'>Emprestar</Button>
+            <Button
+              disabled={instance.status !== 'AVAILABLE'}
+              className='mt-4 cursor-pointer'
+              onClick={() => { router.push(`/books/loan/${instance.id}`); }}
+            >
+              Emprestar
+              <ArrowRight />
+            </Button>
           </div>
         ))}
       </div>
