@@ -12,16 +12,31 @@ export default function BookLoanInstancePage() {
 
   const { bookInstance, loading, error } = useFetchBookInstanceById(instanceId);
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="p-4 text-red-500">Error: {error}</div>;
+  }
+
+  if (!bookInstance) {
+    return <div className="p-4">Instância do livro não encontrada.</div>;
+  }
+
   return (
-    <div className="flex flex-col items-center p-4">
-      <div className="mb-6 self-start">
+    <div className="container mx-auto p-4">
+      <div className="flex items-start gap-8 mb-4">
         <BackButton />
       </div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Detalhes do exemplar</h1>
 
-      <div className="flex flex-col md:flex-row w-full max-w-4xl gap-8">
+      <div className="flex flex-col md:flex-row gap-6">
         {/* Left side: Book Instance Details */}
-        <div className="flex-1 p-6 border border-gray-200 rounded-lg shadow-md bg-white">
+        <div className="bg-white shadow-md rounded-lg p-6 flex-1">
           <h2 className="text-xl font-semibold mb-4 text-gray-700">Informações do Livro</h2>
           <p className="mb-2 text-gray-600"><strong>Título:</strong> {bookInstance?.book.title}</p>
           <p className="mb-2 text-gray-600"><strong>Autor:</strong> {bookInstance?.book.author}</p>
@@ -31,7 +46,7 @@ export default function BookLoanInstancePage() {
         </div>
 
         {/* Right side: Loan Form */}
-        <div className="flex-1 p-6 border border-gray-200 rounded-lg shadow-md bg-white">
+        <div className="bg-white shadow-md rounded-lg p-6 flex-1">
           <h2 className="text-xl font-semibold mb-4 text-gray-700">Realizar Empréstimo</h2>
           <div className="mb-4">
             <label htmlFor="cpf" className="block text-sm font-medium text-gray-700 mb-2">CPF do Leitor</label>
