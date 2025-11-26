@@ -19,10 +19,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     router.push('/auth/signin');
   }
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen overflow-hidden flex flex-col">
 
       {/* HEADER */}
-      <header className="bg-zinc-900 text-white p-4 flex items-center justify-between">
+      <header className="bg-zinc-900 text-white p-4 flex items-center justify-between shadow-lg">
         <Link href="/home" className="text-xl font-semibold hover:text-zinc-300">Biblioteca</Link>
 
         {/* NAVBAR */}
@@ -67,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* PAGE CONTENT */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 overflow-y-auto">
         {children}
       </main>
     </div>

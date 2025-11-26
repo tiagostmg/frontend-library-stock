@@ -2,6 +2,8 @@
 
 import { BackButton } from '@/components/BackButton';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { Button } from '@/components/ui/button';
+import { useFetchBookById } from '@/hooks/useFetchBookById';
 import { useFetchBookInstances } from '@/hooks/useFetchBookInstances';
 import { use } from 'react';
 
@@ -15,9 +17,11 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
   const resolvedParams = use(paramsPromise);
   const { id: bookId } = resolvedParams;
 
-  const { bookInstances, loading, error } = useFetchBookInstances(bookId)
+  const { bookInstances, loading: bookInstancesLoading, error: bookInstancesError } = useFetchBookInstances(bookId)
 
-  if (loading) {
+  const { book, loading: bookLoading, error: bookError } = useFetchBookById(bookId)
+
+  if (bookInstancesLoading || bookLoading) {
     return (
       <div className="flex flex-col items-center">
         <LoadingSpinner />
@@ -25,8 +29,8 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
     )
   }
 
-  if (error) {
-    return <div className="p-4 text-red-500">Error: {error}</div>;
+  if (bookInstancesError || bookError) {
+    return <div className="p-4 text-red-500">Error: {bookInstancesError || bookError}</div>;
   }
 
   if (bookInstances.length === 0) {
@@ -35,23 +39,49 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-start gap-8  mb-4">
+      <div className="flex items-start gap-8 mb-4">
         <BackButton />
-        <h3 className="text-xl font-bold">Book Instances for "{bookInstances[0]?.book.title || 'Book'}"</h3>
+      </div>
+      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h3 className="text-3xl font-bold text-gray-800">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-gray-600 mt-1"> - por {book.author}</span>}</h3>
+        <hr className="my-4" />
+        <div className="mt-2 text-gray-700 space-y-1">
+          {book?.isbn && <p><strong>ISBN:</strong> {book.isbn}</p>}
+          {book?.category && <p><strong>Categoria:</strong> {book.category}</p>}
+          {book?.publisher && <p><strong>Editora:</strong> {book.publisher}</p>}
+          {book?.notes && <p><strong>Notas:</strong> {book.notes}</p>}
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {bookInstances.map((instance) => (
-          <div key={instance.id} className="border p-4 rounded-lg shadow-sm">
-            <p className="text-lg font-semibold">ID: {instance.id}</p>
-            <p>internalCode: {instance.internalCode}</p>
-            <p>Status: <span className={`font-medium ${instance.status === 'AVAILABLE' ? 'text-green-600' :
-              instance.status === 'LOANED' ? 'text-yellow-600' :
-                instance.status === 'MAINTENANCE' ? 'text-red-600' : 'text-gray-600'
-              }`}>{instance.status}</span></p>
-            <p>Acquisition Date: {instance.acquisitionDate}</p>
-            <p>Preservation State: {instance.preservationState}</p>
-            <p>Book: {instance.book.title}</p>
-            <p>Location: {instance.location.sector}</p>
+          <div key={instance.id} className="border p-4 rounded-lg shadow-sm flex flex-col gap-2">
+            <h4 className="text-lg font-bold">ID da Instância: {instance.id}</h4>
+            <p className="text-sm text-gray-600">Código Interno: {instance.internalCode}</p>
+
+            <div className=" flex flex-col gap-2 mt-2">
+              <p>Status: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-500 text-white' :
+                instance.status === 'CHECKED_OUT' ? 'bg-yellow-500 text-white' :
+                  instance.status === 'LOST' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-800'
+                }`}>{instance.status === 'AVAILABLE' ? 'DISPONÍVEL' : instance.status === 'CHECKED_OUT' ? 'EMPRESTADO' : instance.status === 'LOST' ? 'PERDIDO' : instance.status}</span></p>
+              <p>Estado de Preservação: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.preservationState === 'EXCELLENT' ? 'bg-green-500 text-white' :
+                instance.preservationState === 'GOOD' ? 'bg-blue-500 text-white' :
+                  instance.preservationState === 'REGULAR' ? 'bg-yellow-500 text-white' :
+                    instance.preservationState === 'BAD' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-800'
+                }`}>{instance.preservationState === 'EXCELLENT' ? 'EXCELENTE' : instance.preservationState === 'GOOD' ? 'BOM' : instance.preservationState === 'REGULAR' ? 'REGULAR' : instance.preservationState === 'BAD' ? 'RUIM' : instance.preservationState}</span></p>
+              <p>Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString()}</p>
+            </div>
+
+            <div className="flex flex-col gap-2 mt-2 border-t pt-2">
+              <h5 className="font-semibold">Detalhes da Localização:</h5>
+              {/* <p>Setor: {instance.location.sector}</p>
+                <p>Corredor: {instance.location.aisle}</p>
+                <p>Prateleira: {instance.location.shelf}</p>
+                <p>Nível: {instance.location.shelfLevel}</p>
+                <p>Posição: {instance.location.position}</p> */}
+              <p>Código de Classificação: {instance.location.classificationCode}</p>
+            </div>
+
+            <Button className='mt-4'>Emprestar</Button>
           </div>
         ))}
       </div>
