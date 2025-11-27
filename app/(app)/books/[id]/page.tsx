@@ -46,10 +46,10 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       <div className="flex items-start gap-8 mb-4">
         <BackButton />
       </div>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h3 className="text-3xl font-bold text-gray-800">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-gray-600 mt-1"> - por {book.author}</span>}</h3>
+      <div className="bg-card shadow-md rounded-lg p-6 mb-6 border">
+        <h3 className="text-3xl font-bold text-foreground">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-muted-foreground mt-1"> - por {book.author}</span>}</h3>
         <hr className="my-4" />
-        <div className="mt-2 text-gray-700 space-y-1">
+        <div className="mt-2 text-muted-foreground space-y-1">
           {book?.isbn && <p><strong>ISBN:</strong> {book.isbn}</p>}
           {book?.category && <p><strong>Categoria:</strong> {book.category}</p>}
           {book?.publisher && <p><strong>Editora:</strong> {book.publisher}</p>}
@@ -58,19 +58,19 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {bookInstances.map((instance) => (
-          <div key={instance.id} className="border p-4 rounded-lg shadow-sm flex flex-col gap-2">
+          <div key={instance.id} className="border p-4 rounded-lg shadow-sm flex flex-col gap-2 bg-card">
             <h4 className="text-lg font-bold">ID da Instância: {instance.id}</h4>
-            <p className="text-sm text-gray-600">Código Interno: {instance.internalCode}</p>
+            <p className="text-sm text-muted-foreground">Código Interno: {instance.internalCode}</p>
 
             <div className=" flex flex-col gap-2 mt-2">
               <p>Status: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-500 text-white' :
                 instance.status === 'CHECKED_OUT' ? 'bg-yellow-500 text-white' :
-                  instance.status === 'LOST' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-800'
+                  instance.status === 'LOST' ? 'bg-red-500 text-white' : 'bg-muted text-muted-foreground'
                 }`}>{instance.status === 'AVAILABLE' ? 'DISPONÍVEL' : instance.status === 'CHECKED_OUT' ? 'EMPRESTADO' : instance.status === 'LOST' ? 'PERDIDO' : instance.status}</span></p>
               <p>Estado de Preservação: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.preservationState === 'EXCELLENT' ? 'bg-green-500 text-white' :
                 instance.preservationState === 'GOOD' ? 'bg-blue-500 text-white' :
                   instance.preservationState === 'REGULAR' ? 'bg-yellow-500 text-white' :
-                    instance.preservationState === 'BAD' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-800'
+                    instance.preservationState === 'BAD' ? 'bg-red-500 text-white' : 'bg-muted text-muted-foreground'
                 }`}>{instance.preservationState === 'EXCELLENT' ? 'EXCELENTE' : instance.preservationState === 'GOOD' ? 'BOM' : instance.preservationState === 'REGULAR' ? 'REGULAR' : instance.preservationState === 'BAD' ? 'RUIM' : instance.preservationState}</span></p>
               <p>Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString()}</p>
             </div>

@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { BookOpen, Home, LogOut, Settings, UserCircle } from "lucide-react"
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"; // Assuming this path for shadcn dropdown-menu
+import { ModeToggle } from "@/components/ModeToggle";
 
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -38,6 +39,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             Livros
           </Link>
 
+          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button suppressHydrationWarning className="flex items-center gap-2 hover:text-zinc-300 focus:outline-none cursor-pointer">

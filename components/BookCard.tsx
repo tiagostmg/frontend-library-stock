@@ -10,12 +10,12 @@ export function BookCard({ id, title, author, category }: Book) {
     <Card className="w-full hover:shadow-lg transition-all cursor-pointer rounded-2xl">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-xl font-semibold">
-          <BookOpen className="w-5 h-5 text-gray-600" />
+          <BookOpen className="w-5 h-5 text-muted-foreground" />
           {title}
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="text-gray-700 space-y-1">
+      <CardContent className="text-muted-foreground space-y-1">
         <p>
           <span className="font-medium">Autor:</span> {author}
         </p>

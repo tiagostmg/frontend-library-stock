@@ -55,7 +55,7 @@ export default function BookPage() {
 
                 {/* Nenhum resultado encontrado */}
                 {!loading && !error && books.length === 0 && filter && (
-                    <p className="text-xl text-gray-500">Nenhum livro encontrado para o filtro "{filter}".</p>
+                    <p className="text-xl text-muted-foreground">Nenhum livro encontrado para o filtro "{filter}".</p>
                 )}
             </div>
 
