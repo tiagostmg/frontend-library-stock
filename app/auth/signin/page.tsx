@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -13,6 +14,8 @@ export default function LoginPage() {
 
   const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleLogin() {
     try {
@@ -47,19 +50,32 @@ export default function LoginPage() {
             }}
           />
 
-          <Input
-            id="password-input"
-            type="password"
-            placeholder="Senha"
-            onChange={(e) => setPassword(e.target.value)}
-            className="p-3 text-lg"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleLogin();
-              }
-            }}
-          />
+          <div className="relative">
+            <Input
+              id="password-input"
+              type={showPassword ? "text" : "password"}
+              placeholder="Senha"
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-3 text-lg pr-10"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleLogin();
+                }
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer"
+            >
+              {showPassword ? (
+                <EyeOff className="h-5 w-5 transition-transform duration-200 ease-in-out transform hover:scale-110" />
+              ) : (
+                <Eye className="h-5 w-5 transition-transform duration-200 ease-in-out transform hover:scale-110" />
+              )}
+            </button>
+          </div>
 
           <Button className="w-full mt-6 py-3 text-lg font-semibold cursor-pointer" onClick={handleLogin}>
             Entrar

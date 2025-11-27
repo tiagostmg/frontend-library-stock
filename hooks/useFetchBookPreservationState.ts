@@ -1,9 +1,11 @@
-import { BookInstance } from "@/types/book-instance.types";
+"use client"
+
 import { api } from "@/utils/api";
 import { useState, useEffect } from "react";
+import { BookInstance } from "@/types/book-instance.types";
 
-export function useFetchBookInstances(bookId: string) {
-  const [bookInstances, setBookInstances] = useState<BookInstance[]>([]);
+export function useFetchBookPreservationState() {
+  const [bookInstancesPreservationState, setBookInstancesPreservationState] = useState<BookInstance[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -11,9 +13,9 @@ export function useFetchBookInstances(bookId: string) {
     const fetchBookInstances = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/book-instances/book/${bookId}`);
+        const response = await api.get(`/book-instances/dash/bad-preservation`);
         const data: BookInstance[] = response.data;
-        setBookInstances(data);
+        setBookInstancesPreservationState(data);
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -21,10 +23,8 @@ export function useFetchBookInstances(bookId: string) {
       }
     };
 
-    if (bookId) {
-      fetchBookInstances();
-    }
-  }, [bookId]);
+    fetchBookInstances();
+  }, []);
 
-  return { bookInstances, loading, error };
+  return { bookInstancesPreservationState, loading, error };
 }

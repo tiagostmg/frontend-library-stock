@@ -6,7 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { BackButton } from '@/components/BackButton';
 
 
-export default function BookLoanInstancePage() {
+export default function BookInstancePage() {
   const params = useParams();
   const instanceId = params.instanceId as string;
 

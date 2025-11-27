@@ -88,7 +88,7 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
             <Button
               disabled={instance.status !== 'AVAILABLE'}
               className='mt-4 cursor-pointer'
-              onClick={() => { router.push(`/books/loan/${instance.id}`); }}
+              onClick={() => { router.push(`/books/instance/${instance.id}`); }}
             >
               Emprestar
               <ArrowRight />

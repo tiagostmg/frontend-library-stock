@@ -11,7 +11,7 @@ export function useFetchBookById(bookId: string) {
     const fetchBook = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`http://localhost:8080/books/${bookId}`);
+        const response = await api.get(`/books/${bookId}`);
         const data: Book = response.data;
         setBook(data);
       } catch (e: any) {
