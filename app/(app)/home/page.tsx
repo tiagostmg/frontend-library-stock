@@ -2,20 +2,21 @@
 
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { SearchBar } from "@/components/SearchBar";
+import { Button } from "@/components/ui/button";
 import { useFetchBookPreservationState } from "@/hooks/useFetchBookPreservationState";
 import { useFetchOverdueLoan } from "@/hooks/useFetchOverdueLoan";
+import { useSearchBookInstanceByInternalCode } from "@/hooks/useSearchBookInstanceByInternalCode";
 import { AlertCircle, ArrowRightLeft, Book } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function HomePage() {
 
   const { overdueLoans, loading: loadingOverdueLoans, error: errorOverdueLoans } = useFetchOverdueLoan();
   const { bookInstancesPreservationState, loading: loadingPreservationState, error: errorPreservationState } = useFetchBookPreservationState();
 
+  const { bookInstance, loading: loadingBookInstance, error: errorBookInstance, code, setCode } = useSearchBookInstanceByInternalCode();
   const router = useRouter();
 
-  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <div className="flex gap-6 w-full h-full">
@@ -121,9 +122,53 @@ export default function HomePage() {
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Pesquisar Livro por Código Interno</label>
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Pesquisar Livro</label>
+            <SearchBar placeholder="Digite o código interno do livro" className="mt-2" value={code} onChange={setCode} />
           </div>
+
+          {loadingBookInstance && (
+            <div className="flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+              <LoadingSpinner />
+            </div>
+          )}
+          {errorBookInstance && (
+            <div className="text-red-500 dark:text-red-400 text-center">
+              {errorBookInstance || "Erro ao buscar livro."}
+            </div>
+          )}
+          {bookInstance && (
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">{bookInstance.book.title}</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Código: {bookInstance.internalCode}</p>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>
+                      {bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    disabled={bookInstance.status !== 'AVAILABLE'}
+                    onClick={() => router.push(`/loans/new?bookInstanceId=${bookInstance.id}`)}
+                  >
+                    Emprestar
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={bookInstance.status === 'AVAILABLE'}
+                    onClick={() => router.push(`/loans/return?bookInstanceId=${bookInstance.id}`)}
+                  >
+                    Devolver
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

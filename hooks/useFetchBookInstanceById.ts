@@ -1,4 +1,4 @@
-import { BookInstance } from "@/types/book-instance.types";
+import { BookInstance } from "@/types/book.types";
 import { api } from "@/utils/api";
 import { useState, useEffect } from "react";
 

@@ -1,8 +1,8 @@
 "use client"
 
+import { BookInstance } from "@/types/book.types";
 import { api } from "@/utils/api";
 import { useState, useEffect } from "react";
-import { BookInstance } from "@/types/book-instance.types";
 
 export function useFetchBookPreservationState() {
   const [bookInstancesPreservationState, setBookInstancesPreservationState] = useState<BookInstance[]>([]);
