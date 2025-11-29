@@ -4,6 +4,8 @@ import { useParams } from 'next/navigation';
 import { useFetchBookInstanceById } from '@/hooks/useFetchBookInstanceById';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { BackButton } from '@/components/BackButton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from 'lucide-react';
 
 
 export default function BookInstancePage() {
@@ -36,13 +38,54 @@ export default function BookInstancePage() {
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left side: Book Instance Details */}
+        <Card className="flex-1">
+          <CardHeader>
+            <CardTitle>Informações da Instância</CardTitle>
+            <CardDescription>Detalhes específicos desta cópia do livro.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Título:</p>
+              <p className="text-sm font-semibold">{bookInstance?.book.title}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Autor:</p>
+              <p className="text-sm font-semibold">{bookInstance?.book.author}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">ID da Instância:</p>
+              <p className="text-sm text-foreground">{bookInstance?.id}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Código Interno:</p>
+              <p className="text-sm text-foreground">{bookInstance?.internalCode}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Status:</p>
+              <p className={`text-sm px-2 py-1 rounded-full font-semibold ${bookInstance?.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                {bookInstance?.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Middle side: Loan History */}
         <div className="bg-card shadow-md rounded-lg p-6 flex-1 border">
-          <h2 className="text-xl font-semibold mb-4 text-foreground">Informações do Livro</h2>
-          <p className="mb-2 text-muted-foreground"><strong>Título:</strong> {bookInstance?.book.title}</p>
-          <p className="mb-2 text-muted-foreground"><strong>Autor:</strong> {bookInstance?.book.author}</p>
-          <p className="mb-2 text-muted-foreground"><strong>ID da Instância:</strong> {bookInstance?.id}</p>
-          <p className="mb-2 text-muted-foreground"><strong>Status:</strong> {bookInstance?.status}</p>
-          <p className="mb-2 text-muted-foreground"><strong>Código Interno:</strong> {bookInstance?.internalCode}</p>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Histórico de Empréstimos</h2>
+          {/* Assuming bookInstance has a loanHistory array for demonstration */}
+          {/* {bookInstance.loanHistory && bookInstance.loanHistory.length > 0 ? (
+            <ul className="space-y-3">
+              {bookInstance.loanHistory.map((loan: any, index: number) => (
+                <li key={index} className="p-3 bg-muted rounded-md">
+                  <p className="text-sm text-foreground"><strong>Leitor:</strong> {loan.borrowerName}</p>
+                  <p className="text-xs text-muted-foreground"><strong>Empréstimo:</strong> {new Date(loan.loanDate).toLocaleDateString()}</p>
+                  <p className="text-xs text-muted-foreground"><strong>Devolução:</strong> {loan.returnDate ? new Date(loan.returnDate).toLocaleDateString() : 'Pendente'}</p>
+                </li>
+              ))}
+            </ul>
+          ) : ( */}
+          <p className="text-muted-foreground">Nenhum histórico de empréstimo encontrado para esta instância.</p>
+          {/* )} */}
         </div>
 
         {/* Right side: Loan Form */}

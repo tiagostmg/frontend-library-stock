@@ -14,12 +14,14 @@ export function useSearchBookInstanceByInternalCode() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
-
   async function fetchBookInstanceByInternalCode() {
     setLoading(true)
     setError(null)
     try {
+      if (code.trim() === '') {
+        setBookInstance(null)
+        return
+      }
       const url = `/book-instances/dash/${code}`
       const res = await api.get(url)
       setBookInstance(res.data)
@@ -32,12 +34,6 @@ export function useSearchBookInstanceByInternalCode() {
   }
 
   useEffect(() => {
-    if (isInitialLoad) {
-      fetchBookInstanceByInternalCode()
-      setIsInitialLoad(false)
-      return
-    }
-
     const handler = setTimeout(() => {
       fetchBookInstanceByInternalCode()
     }, DEBOUNCE_DELAY_MS)

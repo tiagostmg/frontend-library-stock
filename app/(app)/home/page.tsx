@@ -126,49 +126,69 @@ export default function HomePage() {
             <SearchBar placeholder="Digite o código interno do livro" className="mt-2" value={code} onChange={setCode} />
           </div>
 
-          {loadingBookInstance && (
-            <div className="flex items-center justify-center text-zinc-500 dark:text-zinc-400">
-              <LoadingSpinner />
-            </div>
-          )}
-          {errorBookInstance && (
-            <div className="text-red-500 dark:text-red-400 text-center">
-              {errorBookInstance || "Erro ao buscar livro."}
-            </div>
-          )}
-          {bookInstance && (
-            <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">{bookInstance.book.title}</h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">Código: {bookInstance.internalCode}</p>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                    Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>
-                      {bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}
-                    </span>
-                  </p>
+          {(() => {
+            if (code.trim() === '') {
+              return (
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 text-center">
+                  Pesquise pelo código interno do livro.
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    disabled={bookInstance.status !== 'AVAILABLE'}
-                    onClick={() => router.push(`/loans/new?bookInstanceId=${bookInstance.id}`)}
-                  >
-                    Emprestar
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    disabled={bookInstance.status === 'AVAILABLE'}
-                    onClick={() => router.push(`/loans/return?bookInstanceId=${bookInstance.id}`)}
-                  >
-                    Devolver
-                  </Button>
+              );
+            }
+            if (loadingBookInstance) {
+              return (
+                <div className=" bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+                  <LoadingSpinner />
                 </div>
+              );
+            }
+            if (errorBookInstance) {
+              return (
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 text-red-500 dark:text-red-400 text-center">
+                  Livro não encontrado.
+                </div>
+              )
+            }
+            if (bookInstance) {
+              return (
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">{bookInstance.book.title}</h3>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Código: {bookInstance.internalCode}</p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                        Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>
+                          {bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        variant="default"
+                        size="sm"
+                        disabled={bookInstance.status !== 'AVAILABLE'}
+                        onClick={() => router.push(`/loans/new?bookInstanceId=${bookInstance.id}`)}
+                      >
+                        Emprestar
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        disabled={bookInstance.status === 'AVAILABLE'}
+                        onClick={() => router.push(`/loans/return?bookInstanceId=${bookInstance.id}`)}
+                      >
+                        Devolver
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div className=" bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+                <LoadingSpinner />
               </div>
-            </div>
-          )}
+            );
+          })()}
         </div>
       </div>
     </div>

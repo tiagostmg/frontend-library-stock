@@ -63,16 +63,13 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
             <p className="text-sm text-muted-foreground">Código Interno: {instance.internalCode}</p>
 
             <div className=" flex flex-col gap-2 mt-2">
-              <p>Status: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-500 text-white' :
-                instance.status === 'CHECKED_OUT' ? 'bg-yellow-500 text-white' :
-                  instance.status === 'LOST' ? 'bg-red-500 text-white' : 'bg-muted text-muted-foreground'
-                }`}>{instance.status === 'AVAILABLE' ? 'DISPONÍVEL' : instance.status === 'CHECKED_OUT' ? 'EMPRESTADO' : instance.status === 'LOST' ? 'PERDIDO' : instance.status}</span></p>
-              <p>Estado de Preservação: <span className={`px-2 py-1 rounded-full text-xs font-semibold ${instance.preservationState === 'EXCELLENT' ? 'bg-green-500 text-white' :
-                instance.preservationState === 'GOOD' ? 'bg-blue-500 text-white' :
-                  instance.preservationState === 'REGULAR' ? 'bg-yellow-500 text-white' :
-                    instance.preservationState === 'BAD' ? 'bg-red-500 text-white' : 'bg-muted text-muted-foreground'
-                }`}>{instance.preservationState === 'EXCELLENT' ? 'EXCELENTE' : instance.preservationState === 'GOOD' ? 'BOM' : instance.preservationState === 'REGULAR' ? 'REGULAR' : instance.preservationState === 'BAD' ? 'RUIM' : instance.preservationState}</span></p>
-              <p>Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString()}</p>
+              <p className={`text-sm px-2 py-1 rounded-full font-semibold w-fit ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+              </p>
+              <p className={`text-sm px-2 py-1 rounded-full font-semibold w-fit ${instance.preservationState === 'EXCELLENT' || instance.preservationState === 'GOOD' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
+              </p>
+              <p className="text-sm">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString()}</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-2 border-t pt-2">
