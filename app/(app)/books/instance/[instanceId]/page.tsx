@@ -5,7 +5,7 @@ import { useFetchBookInstanceById } from '@/hooks/useFetchBookInstanceById';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { BackButton } from '@/components/BackButton';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from 'lucide-react';
+import { useFetchLoanHistoryByInstance } from '@/hooks/useFetchLoanHistoryByInstance';
 
 
 export default function BookInstancePage() {
@@ -65,6 +65,33 @@ export default function BookInstancePage() {
               <p className={`text-sm px-2 py-1 rounded-full font-semibold ${bookInstance?.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                 {bookInstance?.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
               </p>
+            </div>
+            <div className="mt-6 pt-4 border-t">
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">Localização</h3>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Corredor:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.aisle}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Posição:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.position}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Setor:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.sector}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Prateleira:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.shelf}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Nível:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.shelfLevel}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-muted-foreground">Classificação:</p>
+              <p className="text-sm text-foreground">{bookInstance?.location.classificationCode}</p>
             </div>
           </CardContent>
         </Card>

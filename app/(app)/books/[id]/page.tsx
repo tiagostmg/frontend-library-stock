@@ -61,25 +61,21 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
           <div key={instance.id} className="border p-4 rounded-lg shadow-sm flex flex-col gap-2 bg-card">
             <h4 className="text-lg font-bold">ID da Instância: {instance.id}</h4>
             <p className="text-sm text-muted-foreground">Código Interno: {instance.internalCode}</p>
+            {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
 
             <div className=" flex flex-col gap-2 mt-2">
-              <p className={`text-sm px-2 py-1 rounded-full font-semibold w-fit ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+              <p className="text-sm text-muted-foreground">
+                <strong>Status:</strong>{' '}
+                <span className={`px-2 py-1 rounded-full font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+                </span>
               </p>
-              <p className={`text-sm px-2 py-1 rounded-full font-semibold w-fit ${instance.preservationState === 'EXCELLENT' || instance.preservationState === 'GOOD' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
+              <p className="text-sm text-muted-foreground">
+                <strong>Preservação:</strong>{' '}
+                <span className={`px-2 py-1 rounded-full font-semibold ${instance.preservationState === 'EXCELLENT' || instance.preservationState === 'GOOD' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
+                </span>
               </p>
-              <p className="text-sm">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString()}</p>
-            </div>
-
-            <div className="flex flex-col gap-2 mt-2 border-t pt-2">
-              <h5 className="font-semibold">Detalhes da Localização:</h5>
-              {/* <p>Setor: {instance.location.sector}</p>
-                <p>Corredor: {instance.location.aisle}</p>
-                <p>Prateleira: {instance.location.shelf}</p>
-                <p>Nível: {instance.location.shelfLevel}</p>
-                <p>Posição: {instance.location.position}</p> */}
-              <p>Código de Classificação: {instance.location.classificationCode}</p>
             </div>
 
             <Button

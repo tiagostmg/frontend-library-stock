@@ -154,29 +154,18 @@ export default function HomePage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">{bookInstance.book.title}</h3>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">Código: {bookInstance.internalCode}</p>
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                        Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>
-                          {bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}
-                        </span>
-                      </p>
+                      {bookInstance.book.author && <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Autor: {bookInstance.book.author}</p>}
+                      {bookInstance.book.category && <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Gênero: {bookInstance.book.category}</p>}
+                      <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>{bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}</span></p>
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 h-full justify-center">
                       <Button
-                        variant="default"
+                        variant="outline"
                         size="sm"
-                        disabled={bookInstance.status !== 'AVAILABLE'}
-                        onClick={() => router.push(`/loans/new?bookInstanceId=${bookInstance.id}`)}
+                        className="cursor-pointer h-10"
+                        onClick={() => router.push(`/books/instance/${bookInstance.id}`)}
                       >
-                        Emprestar
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        disabled={bookInstance.status === 'AVAILABLE'}
-                        onClick={() => router.push(`/loans/return?bookInstanceId=${bookInstance.id}`)}
-                      >
-                        Devolver
+                        Ver Detalhes
                       </Button>
                     </div>
                   </div>
