@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { Loan } from "@/types/loan.types";
 
-export const useFetchLoanHistoryByInstance = (instanceId: string) => {
+export const useFetchLoanHistoryByReader = (readerId: string) => {
 
   const [loanHistory, setLoanHistory] = useState<Loan[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchLoanHistoryByInstance = async () => {
+    const fetchLoanHistoryByReader = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/loan-history/${instanceId}`); // TODO: Implementar endpoint
+        const response = await fetch(`/api/loan-history/${readerId}`); // TODO: Implementar endpoint
         const data = await response.json();
         setLoanHistory(data);
         setError(null);
@@ -24,8 +24,8 @@ export const useFetchLoanHistoryByInstance = (instanceId: string) => {
         setLoading(false);
       }
     };
-    fetchLoanHistoryByInstance();
-  }, [instanceId]);
+    fetchLoanHistoryByReader();
+  }, [readerId]);
 
-  return { error, loading, bookInstanceHistory: loanHistory };
+  return { error, loading, loanHistory };
 }

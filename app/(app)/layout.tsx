@@ -3,7 +3,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import Link from "next/link";
 import { useContext } from "react";
-import { BookOpen, Home, LogOut, Settings, UserCircle } from "lucide-react"
+import { BookOpen, Home, LogOut, Settings, User, UserCircle } from "lucide-react"
 import { useRouter } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"; // Assuming this path for shadcn dropdown-menu
 import { ModeToggle } from "@/components/ModeToggle";
@@ -37,6 +37,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Link href="/books" className="hover:text-zinc-300 flex gap-2 items-center">
             <BookOpen className="w-5 h-5" />
             Livros
+          </Link>
+
+          <Link href="/readers" className="hover:text-zinc-300 flex gap-2 items-center">
+            <User className="w-5 h-5" />
+            Leitores
           </Link>
 
           <ModeToggle />
