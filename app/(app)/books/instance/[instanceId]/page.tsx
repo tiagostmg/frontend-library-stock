@@ -25,13 +25,6 @@ export default function BookInstancePage() {
 
   const auth = useContext(AuthContext);
 
-  if (!auth || !auth.user) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-zinc-500">Carregando informações do usuário...</p>
-      </div>
-    );
-  }
 
   const { bookInstance, loading, error, refetch: refetchBookInstance } = useFetchBookInstanceById(instanceId);
 
@@ -53,6 +46,14 @@ export default function BookInstancePage() {
       refetchLoanHistory();
     }
   });
+
+  if (!auth || !auth.user) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p className="text-zinc-500">Carregando informações do usuário...</p>
+      </div>
+    );
+  }
 
   const handleLoanBook = async () => {
     if (!auth.user || !reader) return;
