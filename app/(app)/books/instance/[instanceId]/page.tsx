@@ -160,7 +160,6 @@ export default function BookInstancePage() {
 
         <div className="bg-card shadow-md rounded-lg p-6 flex-1 border">
           <h2 className="text-xl font-semibold mb-4 text-foreground">Histórico de Empréstimos</h2>
-          {/* Assuming bookInstance has a loanHistory array for demonstration */}
           {loanHistory && loanHistory.length > 0 ? (
             <div className="space-y-3">
               {loanHistory
