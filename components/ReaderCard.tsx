@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button"
 import { User } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-export function ReaderCard({ id, name, email, phone }: Reader) {
+export function ReaderCard({ id, name, email, phone, cpf }: Reader) {
   const router = useRouter()
   return (
-    <Card className="w-full hover:shadow-lg transition-all cursor-pointer rounded-2xl">
+    <Card
+      className="w-full hover:shadow-lg transition-all cursor-pointer rounded-2xl"
+      onClick={() => router.push(`/readers/${id}`)}
+    >
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-xl font-semibold">
           <User className="w-5 h-5 text-muted-foreground" />
@@ -16,6 +19,9 @@ export function ReaderCard({ id, name, email, phone }: Reader) {
       </CardHeader>
 
       <CardContent className="text-muted-foreground space-y-1">
+        <p>
+          <span className="font-medium">CPF:</span> {cpf}
+        </p>
         <p>
           <span className="font-medium">Email:</span> {email}
         </p>

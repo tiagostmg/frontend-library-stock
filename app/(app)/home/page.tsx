@@ -21,7 +21,7 @@ export default function HomePage() {
   return (
     <div className="flex gap-6 w-full h-full">
       {/* COLUMN 1: Livros Atrasados */}
-      <div className="flex-1 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md flex flex-col">
+      <div className="flex-1 border bg-white dark:bg-card p-6 rounded-xl shadow-md flex flex-col">
         <h2 className="text-xl font-semibold mb-4 text-red-600 flex items-center gap-2">
           <AlertCircle className="w-6 h-6" />
           Livros Atrasados
@@ -62,7 +62,7 @@ export default function HomePage() {
       </div>
 
       {/* COLUMN 2: Estado de Conservação */}
-      <div className="flex-1 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md flex flex-col">
+      <div className="flex-1 border bg-white dark:bg-card p-6 rounded-xl shadow-md flex flex-col">
         <h2 className="text-xl font-semibold mb-4 text-red-600 flex items-center gap-2">
           <Book className="w-6 h-6" />
           Baixo estado de Conservação
@@ -114,7 +114,7 @@ export default function HomePage() {
       </div>
 
       {/* COLUMN 3: Empréstimo */}
-      <div className="flex-1 bg-white dark:bg-zinc-900 p-6 rounded-xl shadow-md flex flex-col">
+      <div className="flex-1 border bg-white dark:bg-card p-6 rounded-xl shadow-md flex flex-col">
         <h2 className="text-xl font-semibold mb-4 text-zinc-800 dark:text-zinc-100 flex items-center gap-2">
           <ArrowRightLeft className="w-6 h-6" />
           Empréstimo
@@ -129,34 +129,34 @@ export default function HomePage() {
           {(() => {
             if (code.trim() === '') {
               return (
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 text-center">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-900/20 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 text-center">
                   Pesquise pelo código interno do livro.
                 </div>
               );
             }
             if (loadingBookInstance) {
               return (
-                <div className=" bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-900/20 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-500 dark:text-zinc-400 h-24">
                   <LoadingSpinner />
                 </div>
               );
             }
             if (errorBookInstance) {
               return (
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 text-red-500 dark:text-red-400 text-center">
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg shadow-sm border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-center">
                   Livro não encontrado.
                 </div>
-              )
+              );
             }
             if (bookInstance) {
               return (
-                <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
+                <div className="p-4 bg-zinc-50 dark:bg-zinc-900/20 rounded-lg shadow border border-zinc-100 dark:border-zinc-900/50">
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100">{bookInstance.book.title}</h3>
                       {bookInstance.book.author && <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Autor: {bookInstance.book.author}</p>}
                       {bookInstance.book.category && <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Gênero: {bookInstance.book.category}</p>}
-                      <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600' : 'text-red-600'}`}>{bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}</span></p>
+                      <p className="text-sm mt-1 text-zinc-600 dark:text-zinc-400">Status: <span className={`font-medium ${bookInstance.status === 'AVAILABLE' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>{bookInstance.status === 'AVAILABLE' ? 'Disponível' : 'Emprestado'}</span></p>
                     </div>
                     <div className="flex flex-col gap-2 h-full justify-center">
                       <Button
@@ -172,11 +172,7 @@ export default function HomePage() {
                 </div>
               );
             }
-            return (
-              <div className=" bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700 flex items-center justify-center text-zinc-500 dark:text-zinc-400">
-                <LoadingSpinner />
-              </div>
-            );
+            return null; // Should not reach here if initial state and loading are handled
           })()}
         </div>
       </div>

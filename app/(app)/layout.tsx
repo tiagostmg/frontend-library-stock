@@ -44,7 +44,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             Leitores
           </Link>
 
-          <ModeToggle />
+          <ModeToggle className="bg-transparent border-zinc-700 text-white hover:bg-zinc-800 hover:text-white" />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button suppressHydrationWarning className="flex items-center gap-2 hover:text-zinc-300 focus:outline-none cursor-pointer">

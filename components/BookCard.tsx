@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation"
 export function BookCard({ id, title, author, category }: Book) {
   const router = useRouter()
   return (
-    <Card className="w-full hover:shadow-lg transition-all cursor-pointer rounded-2xl">
+    <Card
+      className="w-full hover:shadow-lg transition-all cursor-pointer rounded-2xl"
+      onClick={() => router.push(`/books/${id}`)}
+    >
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-xl font-semibold">
           <BookOpen className="w-5 h-5 text-muted-foreground" />

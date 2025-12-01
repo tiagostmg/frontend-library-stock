@@ -58,7 +58,11 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {bookInstances.map((instance) => (
-          <div key={instance.id} className="border p-4 rounded-lg shadow-sm flex flex-col gap-2 bg-card">
+          <div
+            key={instance.id}
+            className="border p-4 rounded-lg shadow-sm flex flex-col gap-2 bg-card cursor-pointer"
+            onClick={() => router.push(`/books/instance/${instance.id}`)}
+          >
             <h4 className="text-lg font-bold">ID da Instância: {instance.id}</h4>
             <p className="text-sm text-muted-foreground">Código Interno: {instance.internalCode}</p>
             {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
@@ -79,12 +83,10 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
             </div>
 
             <Button
-              disabled={instance.status !== 'AVAILABLE'}
               className='mt-4 cursor-pointer'
-              onClick={() => { router.push(`/books/instance/${instance.id}`); }}
+              onClick={() => router.push(`/books/instance/${instance.id}`)}
             >
-              Emprestar
-              <ArrowRight />
+              Ver Detalhes
             </Button>
           </div>
         ))}

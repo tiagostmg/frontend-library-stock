@@ -7,24 +7,24 @@ export function useFetchBookInstanceById(bookInstanceId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchBookInstance = async () => {
-      try {
-        setLoading(true);
-        const response = await api.get(`/book-instances/${bookInstanceId}`);
-        const data: BookInstance = response.data;
-        setBookInstance(data);
-      } catch (e: any) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchBookInstance = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/book-instances/${bookInstanceId}`);
+      const data: BookInstance = response.data;
+      setBookInstance(data);
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (bookInstanceId) {
       fetchBookInstance();
     }
   }, [bookInstanceId]);
 
-  return { bookInstance, loading, error };
+  return { bookInstance, loading, error, refetch: fetchBookInstance };
 }

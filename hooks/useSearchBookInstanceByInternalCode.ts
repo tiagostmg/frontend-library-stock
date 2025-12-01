@@ -26,7 +26,7 @@ export function useSearchBookInstanceByInternalCode() {
       const res = await api.get(url)
       setBookInstance(res.data)
     } catch (err) {
-      setError("Erro ao carregar livros.")
+      setError("Erro ao carregar livro.")
       setBookInstance(null)
     } finally {
       setLoading(false)

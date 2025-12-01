@@ -25,7 +25,7 @@ export function useSearchReaders() {
     setLoading(true)
     setError(null)
     try {
-      const url = `/readers/search?filter=${filter}&type=${type}&page=${page}&size=${pageSize}`
+      const url = `/reader/search?filter=${filter}&type=${type}&page=${page}&size=${pageSize}`
       const res = await api.get(url)
       setReaders(res.data.content)
       setTotalPages(res.data.totalPages)

@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import { ModeToggle } from "@/components/ModeToggle";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -28,14 +29,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl flex overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 p-4 relative">
+      <div className="absolute top-4 right-4">
+        <ModeToggle />
+      </div>
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-900 shadow-xl rounded-2xl flex overflow-hidden">
         {/* Left Column for Login Form */}
         <div className="w-full md:w-1/2 p-8 flex flex-col gap-4 justify-center">
-          <h1 className="text-3xl font-bold text-center mb-2 mt-8 text-gray-800">
+          <h1 className="text-3xl font-bold text-center mb-2 mt-8 text-gray-800 dark:text-gray-100">
             Bem-vindo de volta!
           </h1>
-          <p className="text-center text-gray-600 mb-4">
+          <p className="text-center text-gray-600 dark:text-gray-400 mb-4">
             Faça login para continuar.
           </p>
           <Input

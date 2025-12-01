@@ -34,6 +34,7 @@ export default function ReaderPage() {
           <SelectContent>
             <SelectItem value="name">Nome</SelectItem>
             <SelectItem value="cpf">CPF</SelectItem>
+            <SelectItem value="email">Email</SelectItem>
           </SelectContent>
         </Select>
       </div>
