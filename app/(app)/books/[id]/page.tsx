@@ -3,6 +3,7 @@
 import { BackButton } from '@/components/BackButton';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFetchBookById } from '@/hooks/useFetchBookById';
 import { useFetchBookInstances } from '@/hooks/useFetchBookInstances';
 import { ArrowRight } from 'lucide-react';
@@ -58,16 +59,18 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {bookInstances.map((instance) => (
-          <div
+          <Card
             key={instance.id}
-            className="border p-4 rounded-lg shadow-sm flex flex-col gap-2 bg-card cursor-pointer"
+            className="shadow-sm flex hover:shadow-lg transition-all flex-col gap-2 bg-card cursor-pointer"
             onClick={() => router.push(`/books/instance/${instance.id}`)}
           >
-            <h4 className="text-lg font-bold">ID da Instância: {instance.id}</h4>
-            <p className="text-sm text-muted-foreground">Código Interno: {instance.internalCode}</p>
-            {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
+            <CardHeader>
+              <CardTitle className="text-lg">ID da Instância: {instance.id}</CardTitle>
+              <CardDescription>Código Interno: {instance.internalCode}</CardDescription>
+            </CardHeader>
+            <CardContent className='pt-0 flex flex-col gap-2'>
+              {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
 
-            <div className=" flex flex-col gap-2 mt-2">
               <p className="text-sm text-muted-foreground">
                 <strong>Status:</strong>{' '}
                 <span className={`px-2 py-1 rounded-full font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
@@ -80,15 +83,19 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
                   {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
                 </span>
               </p>
-            </div>
-
-            <Button
-              className='mt-4 cursor-pointer'
-              onClick={() => router.push(`/books/instance/${instance.id}`)}
-            >
-              Ver Detalhes
-            </Button>
-          </div>
+            </CardContent>
+            <CardFooter>
+              <Button
+                className='w-full cursor-pointer mt-4'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  router.push(`/books/instance/${instance.id}`);
+                }}
+              >
+                Ver Detalhes
+              </Button>
+            </CardFooter>
+          </Card>
         ))}
       </div>
     </div>
