@@ -1,5 +1,6 @@
 'use client';
 
+import AddBookInstanceModal from '@/components/AddBookInstanceModal';
 import { BackButton } from '@/components/BackButton';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Button } from '@/components/ui/button';
@@ -47,7 +48,7 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       <div className="flex items-start gap-8 mb-4">
         <BackButton />
       </div>
-      <div className="bg-card shadow-md rounded-lg p-6 mb-6 border">
+      <div className="bg-card shadow-md rounded-lg p-6 mb-4 border">
         <h3 className="text-3xl font-bold text-foreground">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-muted-foreground mt-1"> - por {book.author}</span>}</h3>
         <hr className="my-4" />
         <div className="mt-2 text-muted-foreground space-y-1">
@@ -57,6 +58,11 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
           {book?.notes && <p><strong>Notas:</strong> {book.notes}</p>}
         </div>
       </div>
+
+      <div className="flex justify-end mb-4 mr-4">
+        <AddBookInstanceModal />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {bookInstances.map((instance) => (
           <Card

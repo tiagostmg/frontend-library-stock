@@ -14,6 +14,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import AddBookModal from "@/components/AddBookModal"
 
 export default function BookPage() {
     const { books, loading, error, filter, setFilter, setType, page, setPage, totalPages } = useSearchBooks()
@@ -37,6 +38,9 @@ export default function BookPage() {
                         <SelectItem value="category">Categoria</SelectItem>
                     </SelectContent>
                 </Select>
+
+                <AddBookModal />
+
             </div>
 
             <div className="p-4 text-center">
