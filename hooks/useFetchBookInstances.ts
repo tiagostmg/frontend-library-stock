@@ -26,5 +26,23 @@ export function useFetchBookInstances(bookId: string) {
     }
   }, [bookId]);
 
-  return { bookInstances, loading, error };
+  const refetch = () => {
+    if (bookId) {
+      const fetchBookInstances = async () => {
+        try {
+          setLoading(true);
+          const response = await api.get(`/book-instances/book/${bookId}`);
+          const data: BookInstance[] = response.data;
+          setBookInstances(data);
+        } catch (e: any) {
+          setError(e.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchBookInstances();
+    }
+  };
+
+  return { bookInstances, loading, error, refetch };
 }

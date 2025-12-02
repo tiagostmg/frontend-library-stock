@@ -21,27 +21,11 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
   const resolvedParams = use(paramsPromise);
   const { id: bookId } = resolvedParams;
 
-  const { bookInstances, loading: bookInstancesLoading, error: bookInstancesError } = useFetchBookInstances(bookId)
+  const { bookInstances, loading: bookInstancesLoading, error: bookInstancesError, refetch } = useFetchBookInstances(bookId)
 
   const { book, loading: bookLoading, error: bookError } = useFetchBookById(bookId)
 
   const router = useRouter();
-
-  if (bookInstancesLoading || bookLoading) {
-    return (
-      <div className="flex flex-col items-center">
-        <LoadingSpinner />
-      </div>
-    )
-  }
-
-  if (bookInstancesError || bookError) {
-    return <div className="p-4 text-red-500">Error: {bookInstancesError || bookError}</div>;
-  }
-
-  if (bookInstances.length === 0) {
-    return <div className="p-4">No instances found for this book.</div>;
-  }
 
   return (
     <div className="container mx-auto p-4">
@@ -60,50 +44,59 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
       </div>
 
       <div className="flex justify-end mb-4 mr-4">
-        <AddBookInstanceModal />
+        <AddBookInstanceModal bookId={bookId} onSuccess={refetch} />
       </div>
+      {(bookInstancesLoading || bookLoading) ? (
+        <div className="flex flex-col items-center">
+          <LoadingSpinner />
+        </div>
+      ) : (bookInstancesError || bookError) ? (
+        <div className="p-4 text-red-500">Error: {bookInstancesError || bookError}</div>
+      ) : (bookInstances.length === 0) ? (
+        <div className="p-4 text-center">Este livro não possui exemplares.</div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {bookInstances.map((instance) => (
+            <Card
+              key={instance.id}
+              className="shadow-sm flex hover:shadow-lg transition-all flex-col gap-2 bg-card cursor-pointer"
+              onClick={() => router.push(`/books/instance/${instance.id}`)}
+            >
+              <CardHeader>
+                <CardTitle className="text-lg">ID da Instância: {instance.id}</CardTitle>
+                <CardDescription>Código Interno: {instance.internalCode}</CardDescription>
+              </CardHeader>
+              <CardContent className='pt-0 flex flex-col gap-2'>
+                {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {bookInstances.map((instance) => (
-          <Card
-            key={instance.id}
-            className="shadow-sm flex hover:shadow-lg transition-all flex-col gap-2 bg-card cursor-pointer"
-            onClick={() => router.push(`/books/instance/${instance.id}`)}
-          >
-            <CardHeader>
-              <CardTitle className="text-lg">ID da Instância: {instance.id}</CardTitle>
-              <CardDescription>Código Interno: {instance.internalCode}</CardDescription>
-            </CardHeader>
-            <CardContent className='pt-0 flex flex-col gap-2'>
-              {instance.acquisitionDate && <p className="text-sm text-muted-foreground">Data de Aquisição: {new Date(instance.acquisitionDate).toLocaleDateString('pt-BR')}</p>}
-
-              <p className="text-sm text-muted-foreground">
-                <strong>Status:</strong>{' '}
-                <span className={`px-2 py-1 rounded-full font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
-                </span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                <strong>Preservação:</strong>{' '}
-                <span className={`px-2 py-1 rounded-full font-semibold ${instance.preservationState === 'EXCELLENT' || instance.preservationState === 'GOOD' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
-                </span>
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button
-                className='w-full cursor-pointer mt-4'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  router.push(`/books/instance/${instance.id}`);
-                }}
-              >
-                Ver Detalhes
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Status:</strong>{' '}
+                  <span className={`px-2 py-1 rounded-full font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Preservação:</strong>{' '}
+                  <span className={`px-2 py-1 rounded-full font-semibold ${instance.preservationState === 'EXCELLENT' || instance.preservationState === 'GOOD' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {instance.preservationState === 'EXCELLENT' ? 'Excelente' : instance.preservationState === 'GOOD' ? 'Bom' : instance.preservationState === 'REGULAR' ? 'Regular' : 'Ruim'}
+                  </span>
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button
+                  className='w-full cursor-pointer mt-4'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/books/instance/${instance.id}`);
+                  }}
+                >
+                  Ver Detalhes
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
