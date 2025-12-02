@@ -208,7 +208,7 @@ export default function AddBookModal({ onSuccess }: AddBookModalProps) {
               {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
             </div>
           </div>
-          <div className="grid grid-cols-4 items-start gap-4">
+          {/* <div className="grid grid-cols-4 items-start gap-4">
             <Label htmlFor="notes" className="text-right pt-2">
               Notas
             </Label>
@@ -220,7 +220,7 @@ export default function AddBookModal({ onSuccess }: AddBookModalProps) {
                 onChange={(e) => setNotes(e.target.value)}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <DialogFooter>
           <Button type="submit" className="cursor-pointer" onClick={handleAddBook}>Adicionar Livro</Button>

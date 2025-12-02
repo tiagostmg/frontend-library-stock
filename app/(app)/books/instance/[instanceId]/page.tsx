@@ -1,20 +1,22 @@
 "use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { useFetchBookInstanceById } from '@/hooks/useFetchBookInstanceById';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { BackButton } from '@/components/BackButton';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useFetchLoanHistoryByInstance } from '@/hooks/useFetchLoanHistoryByInstance';
-import { Loan } from '@/types/loan.types';
-import { Input } from '@/components/ui/input';
-import { useContext, useState } from 'react';
+import { DeleteConfirmationDialog } from '@/components/DeleteConfirmationDialog';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { Button } from '@/components/ui/button';
-import { useSearchReaderByCpf } from '@/hooks/useSearchReaderByCpf';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { AuthContext } from '@/context/AuthContext';
 import { useBorrowBook } from '@/hooks/useBorrowBook';
+import { useDeleteBookInstance } from '@/hooks/useDeleteBookInstance';
+import { useFetchBookInstanceById } from '@/hooks/useFetchBookInstanceById';
+import { useFetchLoanHistoryByInstance } from '@/hooks/useFetchLoanHistoryByInstance';
 import { useReturnBook } from '@/hooks/useReturnBook';
-
+import { useSearchReaderByCpf } from '@/hooks/useSearchReaderByCpf';
+import { Loan } from '@/types/loan.types';
+import { Trash2 } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 
 export default function BookInstancePage() {
   const params = useParams();
@@ -44,6 +46,22 @@ export default function BookInstancePage() {
       refetchLoanHistory();
     }
   });
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const { deleteBookInstance, loading: isDeleting, error: deleteError } = useDeleteBookInstance();
+
+  const handleDeleteInstance = async () => {
+    try {
+      await deleteBookInstance(instanceId);
+      if (bookInstance?.book.id) {
+        router.push(`/books/${bookInstance.book.id}`);
+      } else {
+        router.push('/books');
+      }
+    } catch (error) {
+      console.error("Failed to delete book instance:", error);
+    }
+  };
 
   if (!auth || !auth.user) {
     return (
@@ -87,9 +105,20 @@ export default function BookInstancePage() {
 
       <div className="flex flex-col md:flex-row gap-6">
         <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Informações da Instância</CardTitle>
-            <CardDescription>Detalhes específicos desta cópia do livro.</CardDescription>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Informações da Instância</CardTitle>
+              <CardDescription>Detalhes específicos desta cópia do livro.</CardDescription>
+            </div>
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
+              onClick={() => setIsDeleteDialogOpen(true)}
+              title="Desabilitar Exemplar"
+              disabled={bookInstance.status === 'UNAVAILABLE'}
+            >
+              Desabilitar
+            </Button>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="flex items-center justify-between">
@@ -111,7 +140,7 @@ export default function BookInstancePage() {
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">Status:</p>
               <p className={`text-sm px-2 py-1 rounded-full font-semibold ${bookInstance?.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                {bookInstance?.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+                {bookInstance?.status === 'AVAILABLE' ? 'Disponível' : bookInstance?.status === 'CHECKED_OUT' ? 'Emprestado' : bookInstance?.status === 'LOST' ? 'Perdido' : 'Indisponível'}
               </p>
             </div>
             <div className="flex items-center justify-between">
@@ -150,10 +179,10 @@ export default function BookInstancePage() {
               <p className="text-sm font-medium text-muted-foreground">Nível:</p>
               <p className="text-sm text-foreground">{bookInstance?.location.shelfLevel}</p>
             </div>
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">Classificação:</p>
               <p className="text-sm text-foreground">{bookInstance?.location.classificationCode}</p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -254,13 +283,22 @@ export default function BookInstancePage() {
             <Button
               className="w-full font-bold text-md p-5 cursor-pointer"
               onClick={handleReturnBook}
-              disabled={returning}
+              disabled={returning || bookInstance?.status !== 'CHECKED_OUT'}
             >
               {returning ? <LoadingSpinner /> : 'Devolver Livro'}
             </Button>
           )}
         </div>
       </div>
+
+      <DeleteConfirmationDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDeleteInstance}
+        title="Desabilitar Exemplar"
+        description="Tem certeza que deseja desabilitar este exemplar? Esta ação não pode ser desfeita."
+        loading={isDeleting}
+      />
     </div>
   );
 }

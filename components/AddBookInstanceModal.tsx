@@ -102,7 +102,7 @@ export default function AddBookInstanceModal({ bookId, onSuccess }: AddBookInsta
             </Select>
             {errors.preservationState && <p className="text-red-500 text-sm col-start-2 col-span-3">{errors.preservationState}</p>}
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          {/* <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-left">
               Notas
             </Label>
@@ -112,7 +112,7 @@ export default function AddBookInstanceModal({ bookId, onSuccess }: AddBookInsta
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
-          </div>
+          </div> */}
 
         </div>
         <DialogFooter>

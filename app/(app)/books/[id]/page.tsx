@@ -7,9 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFetchBookById } from '@/hooks/useFetchBookById';
 import { useFetchBookInstances } from '@/hooks/useFetchBookInstances';
-import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { use } from 'react';
+import { use, useState } from 'react';
 
 interface BookInstancesPageProps {
   params: Promise<{
@@ -27,19 +26,21 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
 
   const router = useRouter();
 
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-start gap-8 mb-4">
         <BackButton />
       </div>
-      <div className="bg-card shadow-md rounded-lg p-6 mb-4 border">
-        <h3 className="text-3xl font-bold text-foreground">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-muted-foreground mt-1"> - por {book.author}</span>}</h3>
+      <div className="bg-card shadow-md rounded-lg p-6 mb-4 border relative">
+        <h3 className="text-3xl font-bold text-foreground pr-12">{book?.title || 'Livro'} {book?.author && <span className="text-sm md:text-lg text-muted-foreground mt-1"> - por {book.author}</span>}</h3>
         <hr className="my-4" />
         <div className="mt-2 text-muted-foreground space-y-1">
           {book?.isbn && <p><strong>ISBN:</strong> {book.isbn}</p>}
           {book?.category && <p><strong>Categoria:</strong> {book.category}</p>}
           {book?.publisher && <p><strong>Editora:</strong> {book.publisher}</p>}
-          {book?.notes && <p><strong>Notas:</strong> {book.notes}</p>}
+          {/* {book?.notes && <p><strong>Notas:</strong> {book.notes}</p>} */}
         </div>
       </div>
 
@@ -72,7 +73,7 @@ export default function BookInstancesPage({ params: paramsPromise }: BookInstanc
                 <p className="text-sm text-muted-foreground">
                   <strong>Status:</strong>{' '}
                   <span className={`px-2 py-1 rounded-full font-semibold ${instance.status === 'AVAILABLE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    {instance.status === 'AVAILABLE' ? 'Disponível' : 'Indisponível'}
+                    {instance.status === 'AVAILABLE' ? 'Disponível' : instance.status === 'CHECKED_OUT' ? 'Emprestado' : instance.status === 'LOST' ? 'Perdido' : 'Indisponível'}
                   </span>
                 </p>
                 <p className="text-sm text-muted-foreground">
