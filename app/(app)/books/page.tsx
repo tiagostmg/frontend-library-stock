@@ -17,7 +17,7 @@ import {
 import AddBookModal from "@/components/AddBookModal"
 
 export default function BookPage() {
-    const { books, loading, error, filter, setFilter, setType, page, setPage, totalPages } = useSearchBooks()
+    const { books, loading, error, filter, setFilter, setType, page, setPage, totalPages, refetch } = useSearchBooks()
 
     return (
         <>
@@ -39,7 +39,7 @@ export default function BookPage() {
                     </SelectContent>
                 </Select>
 
-                <AddBookModal />
+                <AddBookModal onSuccess={refetch} />
 
             </div>
 

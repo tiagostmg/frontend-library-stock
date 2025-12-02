@@ -57,5 +57,5 @@ export function useSearchBooks() {
     setPage(0)
   }, [pageSize])
 
-  return { books, loading, error, filter, setFilter, setType, page, setPage, pageSize, setpageSize, totalPages }
+  return { books, loading, error, filter, setFilter, setType, page, setPage, pageSize, setpageSize, totalPages, refetch: loadBooks }
 }

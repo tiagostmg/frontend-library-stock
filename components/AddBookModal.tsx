@@ -5,9 +5,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { api } from "@/utils/api"
+import { toast } from "sonner"
 import { useState } from "react"
 
-export default function AddBookModal() {
+interface AddBookModalProps {
+  onSuccess?: () => void;
+}
+
+export default function AddBookModal({ onSuccess }: AddBookModalProps) {
   const [title, setTitle] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
   const [publisher, setPublisher] = useState<string>('');
@@ -17,7 +23,7 @@ export default function AddBookModal() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const handleAddBook = () => {
+  const handleAddBook = async () => {
     const newErrors: { [key: string]: string } = {};
 
     if (!title.trim()) {
@@ -42,12 +48,29 @@ export default function AddBookModal() {
     }
 
     // If no errors, proceed with adding the book
-    console.log(title, author, publisher, isbn, category, notes);
-    // Here you would typically send data to an API or update global state
+    try {
+      await api.post('/books', {
+        title,
+        author,
+        publisher,
+        isbn,
+        category,
+        notes
+      });
 
-    // Clear inputs and close modal after successful submission
-    handleCleanInputs();
-    setIsModalOpen(false);
+      toast.success("Livro adicionado com sucesso!");
+
+      // Clear inputs and close modal after successful submission
+      handleCleanInputs();
+      setIsModalOpen(false);
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar livro:", error);
+      toast.error("Erro ao adicionar livro. Tente novamente.");
+    }
   }
 
   const handleCleanInputs = () => {
@@ -90,7 +113,7 @@ export default function AddBookModal() {
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
-                  setErrors(prev => ({ ...prev, title: '' }));
+                  setErrors((prev: { [key: string]: string }) => ({ ...prev, title: '' }));
                 }}
                 className={errors.title ? 'border-red-500' : ''}
               />
@@ -108,7 +131,7 @@ export default function AddBookModal() {
                 value={author}
                 onChange={(e) => {
                   setAuthor(e.target.value);
-                  setErrors(prev => ({ ...prev, author: '' }));
+                  setErrors((prev: { [key: string]: string }) => ({ ...prev, author: '' }));
                 }}
                 className={errors.author ? 'border-red-500' : ''}
               />
@@ -126,7 +149,7 @@ export default function AddBookModal() {
                 value={publisher}
                 onChange={(e) => {
                   setPublisher(e.target.value);
-                  setErrors(prev => ({ ...prev, publisher: '' }));
+                  setErrors((prev: { [key: string]: string }) => ({ ...prev, publisher: '' }));
                 }}
                 className={errors.publisher ? 'border-red-500' : ''}
               />
@@ -144,7 +167,7 @@ export default function AddBookModal() {
                 value={isbn}
                 onChange={(e) => {
                   setIsbn(e.target.value);
-                  setErrors(prev => ({ ...prev, isbn: '' }));
+                  setErrors((prev: { [key: string]: string }) => ({ ...prev, isbn: '' }));
                 }}
                 className={errors.isbn ? 'border-red-500' : ''}
               />
@@ -160,7 +183,7 @@ export default function AddBookModal() {
                 value={category}
                 onValueChange={(value) => {
                   setCategory(value);
-                  setErrors(prev => ({ ...prev, category: '' }));
+                  setErrors((prev: { [key: string]: string }) => ({ ...prev, category: '' }));
                 }}
               >
                 <SelectTrigger id="category" className={errors.category ? 'border-red-500' : ''}>
