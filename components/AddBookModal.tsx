@@ -191,7 +191,7 @@ export default function AddBookModal({ onSuccess }: AddBookModalProps) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Ficcao">Ficção</SelectItem>
-                  <SelectItem value="Nao-ficcao">Não Ficção</SelectItem>
+                  <SelectItem value="Nao_ficcao">Não Ficção</SelectItem>
                   <SelectItem value="Historia">História</SelectItem>
                   <SelectItem value="Ciencia">Ciência</SelectItem>
                   <SelectItem value="Tecnologia">Tecnologia</SelectItem>
